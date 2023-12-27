@@ -46,6 +46,12 @@ defmodule Codebattle.Oauth.User.FirebaseUser do
       [%User{name: ^name} | _] ->
         {:error, %{name: "Nickname is already taken"}}
 
+      [%User{:github_id => _, email: ^email} | _] when :github_id != nil ->
+        {:error, %{email: "Email is already used. Please use Github for sign in"}}
+
+      [%User{:discord_id => _, email: ^email} | _] when :discord_id != nil ->
+        {:error, %{email: "Email is already used. Please use Discord for sign in"}}
+
       [%User{email: ^email} | _] ->
         {:error, %{email: "Email is already taken"}}
     end
